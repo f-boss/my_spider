@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Author: Bo_ss | Facker
 Time: 2020/8/12
@@ -8,6 +9,7 @@ import binascii
 import os
 import base64
 
+# 检查是否缺少第三方库
 try:
     import requests
     from Crypto.Cipher import AES
@@ -21,10 +23,12 @@ except Exception as e:
 
 
 class Encrypt:
+    """加密模块"""
     def __init__(self, ids=None, keyword=None, search_id=True):
         ids = str(ids)
         self.iv = '0102030405060708'
         self.pub_key = '010001'
+        # 通过search_id来定义加密的内容
         if search_id:
             self.text = '{"ids":"[' + ids + ']","level":"standard","encodeType":"aac","csrf_token":""}'
         else:
@@ -38,6 +42,11 @@ class Encrypt:
         self.nonce = '0CoJUm6Qyw8W8jud'
 
     def aes_encrypt(self, msg, key):
+        """AES加密方法
+        :param msg
+        :param key
+        :return result_str
+        """
         encrypts = AES.new(str.encode(key), mode=AES.MODE_CBC, IV=str.encode(self.iv))
         result = encrypts.encrypt(pad(msg.encode(), AES.block_size))  # 这是一个加密的关键点
         result_str = base64.b64encode(result).decode('utf-8')
@@ -45,11 +54,20 @@ class Encrypt:
 
     @staticmethod
     def rsa_encrypt(text, pubkey, modulus):
+        """RES加密方法
+        :param text
+        :param pubkey
+        :param modulus
+        :return RSAencrypt
+        """
         text = text[::-1]
         rsa = pow(int(binascii.hexlify(text), 16), int(pubkey, 16), int(modulus, 16))
         return format(rsa, 'x').zfill(256)
 
     def encrypt(self):
+        """Music163加密算法
+        :return data
+        """
         i = binascii.hexlify(os.urandom(14))[:16]
         enc_text = self.aes_encrypt(self.text, self.nonce)
         enc_text = self.aes_encrypt(enc_text, i.decode('utf-8'))
@@ -62,6 +80,7 @@ class Encrypt:
 
 
 class MusicCrawl:
+    """爬去模块"""
     def __init__(self, keyword=None, ids=None):
         self.session = requests.Session()
         self.base_url = 'https://music.163.com/'
@@ -74,16 +93,25 @@ class MusicCrawl:
         self.ids = str(ids)
 
     def search_data(self):
+        """对关键字进行加密
+        :return search_data
+        """
         encrypt = Encrypt(search_id=False, keyword=self.keyword)
         search_data = encrypt.encrypt()
         return search_data
 
     def ids_data(self):
+        """对ids进行加密
+        :return ids_data
+        """
         encrypt = Encrypt(ids=self.ids)
         ids_data = encrypt.encrypt()
         return ids_data
 
     def get_list(self):
+        """获取歌曲信息并返回
+        :return song_list
+        """
         data = self.search_data()
         search_url = 'https://music.163.com/weapi/cloudsearch/get/web?csrf_token='
         r = self.session.post(search_url, data=data, headers=self.headers)
@@ -99,6 +127,9 @@ class MusicCrawl:
             }
 
     def get_song(self, name):
+        """请求歌曲并下载
+        :param name
+        """
         data = self.ids_data()
         song_url = 'https://music.163.com/weapi/song/enhance/player/url/v1?csrf_token='
         r = self.session.post(song_url, data=data, headers=self.headers)
@@ -109,6 +140,10 @@ class MusicCrawl:
             print('Download error')
 
     def downing_song(self, url, name):
+        """下载歌曲
+        :param url
+        :param name
+        """
         r = self.session.get(url, headers=self.headers)
         if r.status_code == 200:
             file_path = '{0}/{1}.{2}'.format('music', name, 'mp3')
@@ -150,10 +185,12 @@ class Run:
 
     @staticmethod
     def shell_error():
+        """命令行输入错误"""
         print('You may have typed this command incorrectly')
         print('You can use the \'help\' or \'h\' command to get help')
 
     def quit(self, command):
+        """退出命令"""
         if not len(command.split()) == 1:
             self.shell_error()
         else:
@@ -166,6 +203,7 @@ class Run:
                     exit(0)
 
     def down(self, command):
+        """下载命令"""
         length = len(command.split())
         if length == 2 and command.split()[1] == '-list':
             for all_list in self.all_lists:
@@ -178,6 +216,7 @@ class Run:
             self.shell_error()
 
     def search(self, command):
+        """搜索命令"""
         length = len(command.split())
         self.search_lists = []
         if length == 2:
@@ -192,6 +231,7 @@ class Run:
             self.shell_error()
 
     def list(self, command):
+        """列表命令"""
         length = len(command.split())
         if length == 2 and command.split()[1] == '-view':
             if self.all_lists:
@@ -228,6 +268,7 @@ class Run:
             self.shell_error()
 
     def execute(self, command):
+        """命令检测"""
         if command.split()[0] == 'h' or command.split()[0] == 'help':
             print(self.__doc__)
         elif command.split()[0] == 'd' or command.split()[0] == 'down':
@@ -240,6 +281,7 @@ class Run:
             self.quit(command)
 
     def working(self):
+        """开始工作"""
         command = input("Facker> ")
         com = command.split()
         try:
