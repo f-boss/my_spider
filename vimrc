@@ -53,7 +53,18 @@ set softtabstop=4
 " ==========
 
 " 自定义状态行
-set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
+set statusline=%1*\%<%.50F\             " 显示当前文件相对路径
+set statusline+=%=%2*\%y%m%r%h%w\       " 显示文件类型和文件状态
+set statusline+=%3*\%{&ff}\[%{&fenc}]\  " 显示文件编码类型
+set statusline+=%4*\ row:%l/%L,col:%c\  " 显示光标所在行与列
+set statusline+=%5*\%3p%%\              " 显示当前光标位置百分比
+hi User1 cterm=none ctermfg=25 ctermbg=0
+hi User2 cterm=bold ctermfg=1 ctermbg=0
+hi User3 cterm=bold ctermfg=1 ctermbg=0
+hi User4 cterm=bold ctermfg=6 ctermbg=0
+hi User5 cterm=bold ctermfg=green ctermbg=0
+
+"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 "              | | | | |  |   |      |  |     |    |
 "              | | | | |  |   |      |  |     |    +-- 当前列数
 "              | | | | |  |   |      |  |     +-- 当前行数
