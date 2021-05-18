@@ -13,7 +13,7 @@ filetype plugin on
 " 不同文件类型使用不同缩进
 filetype indent on 
 
-" ==========
+" ==========杂项==========
 
 " 显示行号
 set number
@@ -24,7 +24,28 @@ set noerrorbells
 " 右下角显示光标位置
 set ruler
 
-" ==========
+" 强调匹配的括号
+set showmatch
+
+" 光标短暂跳转到匹配括号的时间，单位为十分之一秒
+set matchtime=2
+
+" 显示当前正在键入的命令
+set showcmd
+
+" 设置自动切换目录为当前文件所在目录，用:sh时候会很方便
+set autochdir
+
+" 搜索时忽略大小写
+set ignorecase
+
+" 随着键入即时搜索
+set incsearch
+
+" 有一个或以上大写字母时仍大小写敏感
+set smartcase
+
+" ==========缩进==========
 
 " 打开自动缩进
 set autoindent
@@ -50,7 +71,7 @@ set softtabstop=4
 " 详细参考文档 :help smarttab 
 "set smarttab
 
-" ==========
+" ==========状态行========
 
 " 自定义状态行
 set statusline=%1*\%<%.50F\             " 显示当前文件相对路径
@@ -64,16 +85,3 @@ hi User3 cterm=bold ctermfg=1 ctermbg=0
 hi User4 cterm=bold ctermfg=6 ctermbg=0
 hi User5 cterm=bold ctermfg=green ctermbg=0
 
-"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
-"              | | | | |  |   |      |  |     |    |
-"              | | | | |  |   |      |  |     |    +-- 当前列数
-"              | | | | |  |   |      |  |     +-- 当前行数
-"              | | | | |  |   |      |  +-- 当前光标位置百分比
-"              | | | | |  |   |      +-- 使用的语法高亮器
-"              | | | | |  |   +-- 文件格式
-"              | | | | |  +-- 文件总行数
-"              | | | | +-- 预览标志
-"              | | | +-- 帮助文件标志
-"              | | +-- 只读标志
-"              | +-- 已修改标志
-"              +-- 当前文件绝对路径
