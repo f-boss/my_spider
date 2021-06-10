@@ -1,11 +1,12 @@
 " 配色方案
-colorscheme desert
+colorscheme evening
 
 " 语法高亮
 syntax on
 
 " 侦测文件类型
-filetype on
+" 如果使用插件应该改为off
+filetype off
 
 " 载入文件插件类型
 filetype plugin on
@@ -85,3 +86,21 @@ hi User3 cterm=bold ctermfg=1 ctermbg=0
 hi User4 cterm=bold ctermfg=6 ctermbg=0
 hi User5 cterm=bold ctermfg=green ctermbg=0
 
+" ==========配置插件======
+" 先安装plug -> curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+" 去除VI一致性
+set nocompatible
+
+call plug#begin('~/.vim/plugged')
+
+" :NERDTree
+Plug 'scrooloose/nerdtree'
+
+call plug#end() 
+
+" ==========插件配置=====
+"
+" NERDTree
+map <F3> :NERDTreeMirror<CR>
+map <F3> :NERDTreeToggle<CR>
