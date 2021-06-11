@@ -4,7 +4,7 @@ from email.mime import text
 from email.mime import multipart
 
 
-def sender_mail(html):
+def sender_mail(html, data_dict):
     msg = multipart.MIMEMultipart()
     # TODO: make the data from json
     msg['From'] = 'Facker'
