@@ -11,5 +11,5 @@ data_dict = {
 		'user_passwd': user_passwd,
 	},
 }
-data = json.dumps(data_dict)
-#print(data)
+with open('./data.json', 'w', encoding='utf-8') as f:
+	json.dump(data_dict, f, ensure_ascii=False)
