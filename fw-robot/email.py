@@ -6,7 +6,7 @@ from email.mime import multipart
 
 def sender_mail(html):
     msg = multipart.MIMEMultipart()
-    #TODO: make the data to json
+    # TODO: make the data to json
     msg['From'] = 'Facker'
     msg['To'] = '**********@**.com'
     msg['subject'] = header.Header('subject', 'utf-8')
