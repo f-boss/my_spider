@@ -1,5 +1,5 @@
 " 配色方案
-colorscheme evening
+colorscheme torte
 
 " 语法高亮
 syntax on
