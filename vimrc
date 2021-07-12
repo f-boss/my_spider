@@ -104,3 +104,4 @@ call plug#end()
 " NERDTree
 map <F3> :NERDTreeMirror<CR>
 map <F3> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
